@@ -4,7 +4,7 @@
  *
  *
  * @note
- * Copyright © 2019 Evgeniy Ivanov. Contacts: <strelok1290@gmail.com>
+ * Copyright Â© 2019 Evgeniy Ivanov. Contacts: <strelok1290@gmail.com>
  * All rights reserved.
  * @note
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -89,7 +89,6 @@ void JbController::gpioTgl(uint8_t number)
 
 bool JbController::getGpio(uint8_t number)
 {
-    printf("Minus pin: %u\n", boardGpios_[number].pin);
     return gpio_get_level(boardGpios_[number].pin);
 }
 
