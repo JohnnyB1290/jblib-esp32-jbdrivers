@@ -52,9 +52,11 @@ public:
 	static void gpioOff(uint8_t number);
 	static void gpioTgl(uint8_t number);
     static bool getGpio(uint8_t number);
+    static char* getSerial(void);
 
 private:
 	static BoardGpio_t boardGpios_[];
+	static char* serial_;
 };
 
 }

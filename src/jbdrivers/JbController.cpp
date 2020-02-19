@@ -38,6 +38,7 @@ namespace jbdrivers
 using namespace jbkernel;
 
 BoardGpio_t JbController::boardGpios_[] = JBCONTROLLER_BOARD_GPIOS;
+char* JbController::serial_ = NULL;
 
 
 void JbController::initialize(void)
@@ -91,6 +92,21 @@ void JbController::gpioTgl(uint8_t number)
 bool JbController::getGpio(uint8_t number)
 {
     return gpio_get_level(boardGpios_[number].pin);
+}
+
+
+char* JbController::getSerial(void)
+{
+    if(!serial_){
+        serial_ = (char*)malloc_s(JBCONTROLLER_SERIAL_MAX_LENGTH);
+        memset(serial_, 0, JBCONTROLLER_SERIAL_MAX_LENGTH);
+        uint8_t mac[6];
+        esp_efuse_mac_get_default(mac);
+        snprintf(serial_, JBCONTROLLER_SERIAL_MAX_LENGTH,
+                 "%02x%02x-%02x%02x-%02x%02x",
+                 mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+    }
+    return serial_;
 }
 
 }
