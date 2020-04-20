@@ -49,7 +49,9 @@ void JbController::initialize(void)
             gpio_pad_select_gpio(boardGpios_[i].pin);
             gpio_set_direction(boardGpios_[i].pin, boardGpios_[i].direction);
             gpio_set_pull_mode(boardGpios_[i].pin,	boardGpios_[i].pullMode);
-            gpio_set_level(boardGpios_[i].pin, 0);
+            if((boardGpios_[i].direction != GPIO_MODE_INPUT) &&  (boardGpios_[i].direction != GPIO_MODE_DISABLE)){
+                gpio_set_level(boardGpios_[i].pin, 0);
+            }
         }
 		isInitialized = true;
 	}
