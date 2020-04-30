@@ -27,7 +27,7 @@
 
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
-#include <string.h>
+#include <cstring>
 #include "jbdrivers/JbController.hpp"
 
 namespace jblib
@@ -41,16 +41,16 @@ BoardGpio_t JbController::boardGpios_[] = JBCONTROLLER_BOARD_GPIOS;
 char* JbController::serial_ = nullptr;
 
 
-void JbController::initialize(void)
+void JbController::initialize()
 {
 	static bool isInitialized = false;
 	if(!isInitialized) {
-        for(uint32_t i = 0; i < (sizeof(boardGpios_)/sizeof(BoardGpio_t)); i++) {
-            gpio_pad_select_gpio(boardGpios_[i].pin);
-            gpio_set_direction(boardGpios_[i].pin, boardGpios_[i].direction);
-            gpio_set_pull_mode(boardGpios_[i].pin,	boardGpios_[i].pullMode);
-            if((boardGpios_[i].direction != GPIO_MODE_INPUT) &&  (boardGpios_[i].direction != GPIO_MODE_DISABLE)){
-                gpio_set_level(boardGpios_[i].pin, 0);
+        for(auto & boardGpio : boardGpios_) {
+            gpio_pad_select_gpio(boardGpio.pin);
+            gpio_set_direction(boardGpio.pin, boardGpio.direction);
+            gpio_set_pull_mode(boardGpio.pin,	boardGpio.pullMode);
+            if((boardGpio.direction != GPIO_MODE_INPUT) &&  (boardGpio.direction != GPIO_MODE_DISABLE)){
+                gpio_set_level(boardGpio.pin, 0);
             }
         }
 		isInitialized = true;
@@ -97,16 +97,18 @@ bool JbController::getGpio(uint8_t number)
 }
 
 
-char* JbController::getSerial(void)
+char* JbController::getSerial()
 {
     if(!serial_){
         serial_ = (char*)malloc_s(JBCONTROLLER_SERIAL_MAX_LENGTH);
-        memset(serial_, 0, JBCONTROLLER_SERIAL_MAX_LENGTH);
-        uint8_t mac[6];
-        esp_efuse_mac_get_default(mac);
-        snprintf(serial_, JBCONTROLLER_SERIAL_MAX_LENGTH,
-                 "%02x%02x-%02x%02x-%02x%02x",
-                 mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+        if(serial_){
+            memset(serial_, 0, JBCONTROLLER_SERIAL_MAX_LENGTH);
+            uint8_t mac[6];
+            esp_efuse_mac_get_default(mac);
+            snprintf(serial_, JBCONTROLLER_SERIAL_MAX_LENGTH,
+                     "%02x%02x-%02x%02x-%02x%02x",
+                     mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+        }
     }
     return serial_;
 }

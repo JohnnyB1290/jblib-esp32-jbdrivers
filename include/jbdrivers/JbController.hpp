@@ -26,7 +26,7 @@
 #ifndef JB_CONTROLLER_HPP_
 #define JB_CONTROLLER_HPP_
 
-#include <stdint.h>
+#include <cstdint>
 #include "jbkernel/jb_common.h"
 #include "jbkernel/JbKernel.hpp"
 #include "driver/gpio.h"
@@ -47,12 +47,12 @@ using namespace jbkernel;
 class JbController : public JbKernel
 {
 public:
-	static void initialize(void);
+	static void initialize();
 	static void gpioOn(uint8_t number);
 	static void gpioOff(uint8_t number);
 	static void gpioTgl(uint8_t number);
     static bool getGpio(uint8_t number);
-    static char* getSerial(void);
+    static char* getSerial();
 
 private:
 	static BoardGpio_t boardGpios_[];
