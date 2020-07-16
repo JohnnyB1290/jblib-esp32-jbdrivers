@@ -1,5 +1,6 @@
 set(COMPONENT_SRCS 
-		"src/jbdrivers/JbController.cpp")
+		"src/jbdrivers/JbController.cpp"
+		"src/jbdrivers/UartChannel.cpp")
 set(COMPONENT_ADD_INCLUDEDIRS 
 		"include")
 		

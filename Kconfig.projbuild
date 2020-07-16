@@ -1,0 +1,38 @@
+menu "ESP32 JBDrivers"
+	
+	menu "Uart Channel"
+	
+		config UART_CHANNEL_TX_BUFFER_SIZE
+			int "UART TX Buffer Size"
+			range 256 4096
+			default 1024
+			help
+				Buffer size of UART TX buffer.
+		
+		config UART_CHANNEL_RX_BUFFER_SIZE
+			int "UART RX Buffer Size"
+			range 256 4096
+			default 2048
+			help
+				Buffer size of UART RX buffer.
+
+		config UART_CHANNEL_EVENT_QUEUE_SIZE
+			int "UART Event Queue Size"
+			range 16 64
+			default 32
+			help
+				Length of UART event queue.
+			
+		config UART_CHANNEL_TASK_STACK_SIZE
+			int "Task stack size"
+			range 2048 32768
+			default 2048
+
+		config UART_CHANNEL_TASK_PRIORITY
+			int "Task priority"
+			range 1 32
+			default 1
+			
+	endmenu  #Uart Modem
+	
+endmenu  #ESP32 Modem

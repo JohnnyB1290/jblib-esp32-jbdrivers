@@ -4,7 +4,7 @@
  *
  *
  * @note
- * Copyright © 2019 Evgeniy Ivanov. Contacts: <strelok1290@gmail.com>
+ * Copyright Â© 2019 Evgeniy Ivanov. Contacts: <strelok1290@gmail.com>
  * All rights reserved.
  * @note
  * Licensed under the Apache License, Version 2.0 (the "License");
