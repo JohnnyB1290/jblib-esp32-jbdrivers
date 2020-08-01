@@ -2,6 +2,10 @@ menu "ESP32 JBDrivers"
 	
 	menu "Uart Channel"
 	
+		config UART_CHANNEL_CONSOLE_ENABLE
+			bool "Enable console"
+			default y
+			
 		config UART_CHANNEL_TX_BUFFER_SIZE
 			int "UART TX Buffer Size"
 			range 256 4096

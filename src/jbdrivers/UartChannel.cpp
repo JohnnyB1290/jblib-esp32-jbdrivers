@@ -38,6 +38,9 @@ namespace jblib
 
         UartChannel::UartChannel(Parameters_t* parameters) : IVoidChannel(), IVoidCallback()
         {
+            #if !CONFIG_UART_CHANNEL_CONSOLE_ENABLE
+            esp_log_level_set(logTag_, ESP_LOG_WARN);
+            #endif
             memcpy(&this->parameters_, parameters, sizeof(this->parameters_));
         }
 
