@@ -56,17 +56,17 @@ namespace jblib
                 uint32_t baudRate = 115200;
             }Parameters_t;
 
-            UartChannel(Parameters_t* parameters);
-            ~UartChannel();
-            virtual void initialize(void* (* const mallocFunc)(size_t),
-                    const uint16_t txBufferSize, ::jblib::jbkernel::IChannelCallback* const callback);
-            virtual void deinitialize(void);
-            virtual void tx(uint8_t* const buffer, const uint16_t size, void* parameter);
-            virtual void getParameter(const uint8_t number, void* const value);
-            virtual void setParameter(const uint8_t number, void* const value);
+            explicit UartChannel(Parameters_t* parameters);
+            ~UartChannel() override;
+            void initialize(void* (* mallocFunc)(size_t),
+                    uint16_t txBufferSize, ::jblib::jbkernel::IChannelCallback* callback) override;
+            void deinitialize() override;
+            void tx(uint8_t* buffer, uint16_t size, void* parameter) override;
+            void getParameter(uint8_t number, void* value) override;
+            void setParameter(uint8_t number, void* value) override;
 
         protected:
-            virtual void voidCallback(void* source, void* parameter);
+            void voidCallback(void* source, void* parameter) override;
 
             jblib::jbkernel::JbKernel::ProceduresListItem* taskHandle_ = nullptr;
             Parameters_t parameters_;

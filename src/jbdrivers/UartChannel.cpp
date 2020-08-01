@@ -57,7 +57,7 @@ namespace jblib
                 const uint16_t txBufferSize, ::jblib::jbkernel::IChannelCallback* const callback)
         {
             if(!this->isInitialized_){
-                esp_err_t result = ESP_FAIL;
+                esp_err_t result;
                 uart_config_t uartConfig;
                 memset(&uartConfig, 0, sizeof(uart_config_t));
                 uartConfig.baud_rate = this->parameters_.baudRate;
@@ -111,7 +111,7 @@ namespace jblib
 
 
 
-        void UartChannel::deinitialize(void)
+        void UartChannel::deinitialize()
         {
             this->callback_ = nullptr;
             if(this-isInitialized_){
