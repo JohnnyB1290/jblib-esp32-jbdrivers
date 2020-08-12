@@ -19,6 +19,21 @@ menu "ESP32 JBDrivers"
 			default 2048
 			help
 				Buffer size of UART RX buffer.
+				
+		config UART_CHANNEL_RX_FIFO_FULL_TRESHOLD
+			int "UART RX FIFO Full treshold"
+			range 1 127
+			default 120
+
+		config UART_CHANNEL_RX_TIMEOUT_TRESHOLD
+			int "UART RX Timeout treshold"
+			range 1 255
+			default 10
+			
+		config UART_CHANNEL_TX_FIFO_EMPTY_TRESHOLD
+			int "UART TX FIFO Empty treshold"
+			range 1 255
+			default 10	
 
 		config UART_CHANNEL_EVENT_QUEUE_SIZE
 			int "UART Event Queue Size"

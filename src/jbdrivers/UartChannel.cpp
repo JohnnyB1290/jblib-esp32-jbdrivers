@@ -95,6 +95,24 @@ namespace jblib
                     ESP_LOGE(logTag_, "Initialize uart_driver_install error");
                     return;
                 }
+
+                uart_intr_config_t uartIntrConfig;
+                uartIntrConfig.intr_enable_mask = UART_RXFIFO_FULL_INT_ENA_M
+                        | UART_RXFIFO_TOUT_INT_ENA_M
+                        | UART_FRM_ERR_INT_ENA_M
+                        | UART_RXFIFO_OVF_INT_ENA_M
+                        | UART_BRK_DET_INT_ENA_M
+                        | UART_PARITY_ERR_INT_ENA_M;
+                uartIntrConfig.rxfifo_full_thresh = CONFIG_UART_CHANNEL_RX_FIFO_FULL_TRESHOLD;
+                uartIntrConfig.rx_timeout_thresh = CONFIG_UART_CHANNEL_RX_TIMEOUT_TRESHOLD;
+                uartIntrConfig.txfifo_empty_intr_thresh = CONFIG_UART_CHANNEL_TX_FIFO_EMPTY_TRESHOLD;
+                result = uart_intr_config(this->parameters_.portNumber, &uartIntrConfig);
+                if(result != ESP_OK){
+                    ESP_LOGE(logTag_, "Initialize uart_intr_config error");
+                    uart_driver_delete(this->parameters_.portNumber);
+                    return;
+                }
+
                 result = uart_enable_rx_intr(this->parameters_.portNumber);
                 if(result != ESP_OK){
                     ESP_LOGE(logTag_, "Initialize uart_enable_rx_intr error");
