@@ -55,7 +55,7 @@ public:
     static char* getSerial();
 
 private:
-	static BoardGpio_t boardGpios_[];
+	static const BoardGpio_t boardGpios_[];
 	static char* serial_;
 };
 

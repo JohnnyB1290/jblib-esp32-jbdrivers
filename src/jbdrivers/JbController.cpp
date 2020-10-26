@@ -37,7 +37,7 @@ namespace jbdrivers
 
 using namespace jbkernel;
 
-BoardGpio_t JbController::boardGpios_[] = JBCONTROLLER_BOARD_GPIOS;
+const BoardGpio_t JbController::boardGpios_[] = JBCONTROLLER_BOARD_GPIOS;
 char* JbController::serial_ = nullptr;
 
 
