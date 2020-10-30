@@ -27,6 +27,10 @@
 
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
+#include "esp_idf_version.h"
+
+#if (ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(4, 0, 0))
+
 #include <cstring>
 #include "jbdrivers/UartChannel.hpp"
 
@@ -231,3 +235,5 @@ namespace jblib
 
     }
 }
+
+#endif
