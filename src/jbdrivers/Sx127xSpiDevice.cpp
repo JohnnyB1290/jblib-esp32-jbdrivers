@@ -106,7 +106,7 @@ uint8_t Sx127xSpiDevice::write(uint8_t address, uint8_t data, bool waitUntilSet)
 
 
 
-void Sx127xSpiDevice::write(uint8_t startAddress, uint8_t* data, size_t size)
+void Sx127xSpiDevice::write(uint8_t startAddress, const uint8_t* data, size_t size)
 {
     spi_transaction_t transaction{};
     transaction.cmd = static_cast<uint8_t>(128) | static_cast<uint8_t>((startAddress & static_cast<uint8_t>(0x7f)));

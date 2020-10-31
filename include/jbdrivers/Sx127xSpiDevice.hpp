@@ -49,11 +49,11 @@ namespace jblib {
             };
 
             explicit Sx127xSpiDevice(const Configuration& config);
-            virtual ~Sx127xSpiDevice() = default;
+            ~Sx127xSpiDevice() override = default;
             spi_bus_config_t getBusConfiguration() final;
             uint8_t read(uint8_t address);
             uint8_t write(uint8_t address, uint8_t data, bool waitUntilSet = false); //returns old value of register
-            void write(uint8_t startAddress, uint8_t* data, size_t size); //max value size is 4096 if using DMA, 64 if not
+            void write(uint8_t startAddress, const uint8_t* data, size_t size); //max value size is 4096 if using DMA, 64 if not
 
         private:
             static constexpr const char* logTag_ = "[ SX127x Spi Dev ]";

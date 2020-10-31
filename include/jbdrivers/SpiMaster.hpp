@@ -72,7 +72,7 @@ namespace jblib {
                 friend spi_device_interface_config_t SpiMaster::getDeviceSpiConfiguration(const Device& device);
             };
 
-            explicit SpiMaster(const spi_bus_config_t& configuration, 
+            explicit SpiMaster(const spi_bus_config_t& configuration,
                     spi_host_device_t number = SPI2_HOST, bool useDma = false) noexcept(false);
             virtual ~SpiMaster();
             SpiMaster(const SpiMaster&) = delete;
