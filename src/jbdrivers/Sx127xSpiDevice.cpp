@@ -29,8 +29,8 @@ using namespace ::jblib::jbdrivers;
 
 Sx127xSpiDevice::Sx127xSpiDevice(const Configuration& config) : SpiMaster::Device(), config_(config)
 {
-    this->deviceConfiguration_.command_bits = 8;
-    this->deviceConfiguration_.address_bits = 0;
+    this->deviceConfiguration_.command_bits = 1;
+    this->deviceConfiguration_.address_bits = 7;
     this->deviceConfiguration_.dummy_bits = 0;
     this->deviceConfiguration_.mode = 0;        // CPOL = 0, CPHA = 0
     this->deviceConfiguration_.duty_cycle_pos = 0;
@@ -72,7 +72,7 @@ uint8_t Sx127xSpiDevice::read(uint8_t address)
 {
     spi_transaction_t transaction{};
     transaction.flags = SPI_TRANS_USE_RXDATA | SPI_TRANS_USE_TXDATA;
-    transaction.cmd = (address & static_cast<uint8_t>(0x7f));
+    transaction.addr = address;
     transaction.length = 8;  //< Total data length, in bits
     esp_err_t ret = this->makeTransaction(transaction);
     if(ret != ESP_OK){
@@ -87,7 +87,8 @@ uint8_t Sx127xSpiDevice::write(uint8_t address, uint8_t data, bool waitUntilSet)
 {
     spi_transaction_t transaction{};
     transaction.flags = SPI_TRANS_USE_RXDATA | SPI_TRANS_USE_TXDATA;
-    transaction.cmd = static_cast<uint8_t>(128) | static_cast<uint8_t>((address & static_cast<uint8_t>(0x7f)));
+    transaction.cmd = 1;
+    transaction.addr = address;
     transaction.length = 8; //< Total data length, in bits
     transaction.tx_data[0] = data;
     esp_err_t ret = this->makeTransaction(transaction);
@@ -109,7 +110,8 @@ uint8_t Sx127xSpiDevice::write(uint8_t address, uint8_t data, bool waitUntilSet)
 void Sx127xSpiDevice::write(uint8_t startAddress, const uint8_t* data, size_t size)
 {
     spi_transaction_t transaction{};
-    transaction.cmd = static_cast<uint8_t>(128) | static_cast<uint8_t>((startAddress & static_cast<uint8_t>(0x7f)));
+    transaction.cmd = 1;
+    transaction.addr = startAddress;
     transaction.length = 8 * size;  //< Total data length, in bits
     transaction.tx_buffer = data;
     esp_err_t ret = this->makeTransaction(transaction);

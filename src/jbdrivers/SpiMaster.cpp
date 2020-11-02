@@ -29,7 +29,7 @@
 
 #include "jbdrivers/SpiMaster.hpp"
 #include <stdexcept>
-#include "esp_intr.h"
+#include "esp_intr_alloc.h"
 
 using namespace ::jblib::jbdrivers;
 
