@@ -53,7 +53,7 @@ void IRAM_ATTR GpioInterrupt::isrHandler(void* arg)
 {
     auto gpioInterrupt = reinterpret_cast<GpioInterrupt*>(arg);
     if(gpioInterrupt->callback_){
-        gpioInterrupt->callback_->voidCallback(arg, nullptr);
+        gpioInterrupt->callback_->voidCallback(arg, gpioInterrupt->callbackArgs_);
     }
 }
 
@@ -93,9 +93,16 @@ GpioInterrupt::~GpioInterrupt()
 
 void GpioInterrupt::setCallback(::jblib::jbkernel::IVoidCallback* const callback)
 {
-    this->callback_ = callback;
+    this->setCallback(callback, nullptr);
 }
 
+
+
+void GpioInterrupt::setCallback(::jblib::jbkernel::IVoidCallback* const callback, void* args)
+{
+    this->callback_ = callback;
+    this->callbackArgs_ = args;
+}
 
 
 void GpioInterrupt::resetCallback()

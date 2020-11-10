@@ -49,6 +49,7 @@ namespace jblib {
             GpioInterrupt(const Configuration& config);
             virtual ~GpioInterrupt();
             void setCallback(::jblib::jbkernel::IVoidCallback* callback);
+            void setCallback(::jblib::jbkernel::IVoidCallback* callback, void* args);
             void resetCallback();
             void enable();
             void disable();
@@ -57,6 +58,7 @@ namespace jblib {
             static constexpr const char* logTag_ = "[ Gpio Intr ]";
 
             ::jblib::jbkernel::IVoidCallback* callback_ = nullptr;
+            void* callbackArgs_ = nullptr;
             gpio_num_t pin_ = GPIO_NUM_NC;
 
             static void isrHandler(void* arg);
