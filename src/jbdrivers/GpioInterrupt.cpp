@@ -52,11 +52,9 @@ void GpioInterrupt::globalDisableGpioInterrupt()
 void IRAM_ATTR GpioInterrupt::isrHandler(void* arg)
 {
     auto gpioInterrupt = reinterpret_cast<GpioInterrupt*>(arg);
-    gpio_set_level(GPIO_NUM_2, 1);
     if(gpioInterrupt->callback_){
         gpioInterrupt->callback_->voidCallback(arg, nullptr);
     }
-    gpio_set_level(GPIO_NUM_2, 0);
 }
 
 
