@@ -89,7 +89,9 @@ bool IRAM_ATTR VoidTimer::isrHandler(void* instance)
 {
     auto timer = reinterpret_cast<VoidTimer*>(instance);
     timer->setCounter(0);
-    timer->invokeCallback(timer);
+    if(timer->callback_ != nullptr){
+        timer->callback_(instance, timer->callbackParameter_);
+    }
     return true;
 }
 
