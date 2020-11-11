@@ -28,7 +28,6 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
 #include "jbdrivers/VoidTimer.hpp"
-#include <iostream>
 
 using namespace ::jblib::jbkernel;
 using namespace ::jblib::jbdrivers;
@@ -60,7 +59,7 @@ VoidTimer::VoidTimer(TimerNum_t number, int intrFlags) : IVoidTimer(), intrFlags
 
 void VoidTimer::initialize(uint32_t periodUs)
 {
-    this->initializeTicks(TIMER_BASE_CLK / 2000000 * periodUs);
+    this->initializeTicks(US_TICKS * periodUs);
 }
 
 
@@ -68,7 +67,7 @@ void VoidTimer::initialize(uint32_t periodUs)
 void VoidTimer::initializeTicks(uint32_t periodTicks)
 {
     timer_config_t config{};
-    config.divider = 2,
+    config.divider = DIVIDER,
     config.counter_dir = TIMER_COUNT_UP,
     config.counter_en = TIMER_PAUSE,
     config.alarm_en = TIMER_ALARM_EN,
@@ -138,7 +137,7 @@ uint32_t VoidTimer::getCounter()
 
 uint32_t VoidTimer::getUsecCounter()
 {
-    return static_cast<uint64_t>(this->getCounter()) * 2000000 / TIMER_BASE_CLK;
+    return (static_cast<uint64_t>(this->getCounter()) / US_TICKS);
 }
 
 
@@ -152,14 +151,14 @@ void VoidTimer::setCounter(uint32_t ticks)
 
 void VoidTimer::setUsecCounter(uint32_t us)
 {
-    this->setCounter(TIMER_BASE_CLK / 2000000 * us);
+    this->setCounter(US_TICKS * us);
 }
 
 
 
 void VoidTimer::changePeriod(uint32_t periodUs)
 {
-    this->changePeriodTicks(TIMER_BASE_CLK / 2000000 * periodUs);
+    this->changePeriodTicks(US_TICKS * periodUs);
 }
 
 

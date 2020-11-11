@@ -62,6 +62,9 @@ namespace jblib{
 
         private:
             static constexpr const char* logTag_ = "[ VoidTimer ]";
+            static constexpr uint32_t DIVIDER = 2;
+            static constexpr uint32_t US_TICKS = TIMER_BASE_CLK / DIVIDER / 1000000;
+
             static bool isrHandler(void* instance);
             explicit VoidTimer(TimerNum_t number, int intrFlags);
             timer_group_t timerGroup_ = TIMER_GROUP_0;
