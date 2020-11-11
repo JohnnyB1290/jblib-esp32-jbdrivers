@@ -25,7 +25,6 @@
 
 #pragma once
 
-#include <functional>
 #include "jbkernel/jb_common.h"
 #include "jbkernel/callback_interfaces.hpp"
 #include "jbkernel/IVoidTimer.hpp"
@@ -48,7 +47,6 @@ namespace jblib{
             static VoidTimer& getVoidTimer(TimerNum_t number, int intrFlags = ESP_INTR_FLAG_LOWMED) noexcept(false);
             VoidTimer(const VoidTimer&) = delete;
             VoidTimer& operator=(const VoidTimer&) = delete;
-
             void initialize(uint32_t periodUs) override;
             void initializeTicks(uint32_t periodTicks) override;
             void deinitialize() override;
@@ -61,17 +59,11 @@ namespace jblib{
             void setUsecCounter(uint32_t us) override;
             void changePeriod(uint32_t periodUs) override;
             void changePeriodTicks(uint32_t periodTicks) override;
-            void addCallback(::jblib::jbkernel::IVoidCallback* callback, void* parameter) override;
-            void addCallback(::jblib::jbkernel::IVoidCallback* callback) override;
-            void deleteCallback() override;
 
         private:
             static constexpr const char* logTag_ = "[ VoidTimer ]";
             static bool isrHandler(void* instance);
             explicit VoidTimer(TimerNum_t number, int intrFlags);
-
-            ::jblib::jbkernel::IVoidCallback* callback_ = nullptr;
-            void* callbackParameter_ = nullptr;
             timer_group_t timerGroup_ = TIMER_GROUP_0;
             timer_idx_t timerIdx_ = TIMER_0;
             int intrFlags_ = 0;

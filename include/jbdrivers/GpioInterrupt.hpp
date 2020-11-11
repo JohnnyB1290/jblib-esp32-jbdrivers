@@ -32,7 +32,7 @@
 namespace jblib {
     namespace jbdrivers {
 
-        class GpioInterrupt
+        class GpioInterrupt : public CallbackCaller
         {
         public:
             struct Configuration
@@ -46,18 +46,13 @@ namespace jblib {
             static void globalEnableGpioInterrupt(uint32_t intrFlags = ESP_INTR_FLAG_LOWMED);
             static void globalDisableGpioInterrupt();
 
-            GpioInterrupt(const Configuration& config);
-            virtual ~GpioInterrupt();
-            void setCallback(::jblib::jbkernel::IVoidCallback* callback, void* args = nullptr);
-            void resetCallback();
+            explicit GpioInterrupt(const Configuration& config);
+            ~GpioInterrupt() override;
             void enable();
             void disable();
 
         private:
             static constexpr const char* logTag_ = "[ Gpio Intr ]";
-
-            ::jblib::jbkernel::IVoidCallback* callback_ = nullptr;
-            void* callbackArgs_ = nullptr;
             gpio_num_t pin_ = GPIO_NUM_NC;
 
             static void isrHandler(void* arg);

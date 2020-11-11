@@ -89,9 +89,7 @@ bool IRAM_ATTR VoidTimer::isrHandler(void* instance)
 {
     auto timer = reinterpret_cast<VoidTimer*>(instance);
     timer->setCounter(0);
-    if(timer->callback_){
-        timer->callback_->voidCallback(timer, timer->callbackParameter_);
-    }
+    timer->invokeCallback(timer);
     return true;
 }
 
@@ -167,28 +165,4 @@ void VoidTimer::changePeriod(uint32_t periodUs)
 void VoidTimer::changePeriodTicks(uint32_t periodTicks)
 {
     timer_set_alarm_value(this->timerGroup_, this->timerIdx_, periodTicks);
-}
-
-
-
-void VoidTimer::addCallback(::jblib::jbkernel::IVoidCallback* callback)
-{
-    this->callback_ = callback;
-    this->callbackParameter_ = nullptr;
-}
-
-
-
-void VoidTimer::addCallback(::jblib::jbkernel::IVoidCallback* callback, void* parameter)
-{
-    this->callback_ = callback;
-    this->callbackParameter_ = parameter;
-}
-
-
-
-void VoidTimer::deleteCallback()
-{
-    this->callback_ = nullptr;
-    this->callbackParameter_ = nullptr;
 }

@@ -52,14 +52,12 @@ void GpioInterrupt::globalDisableGpioInterrupt()
 void IRAM_ATTR GpioInterrupt::isrHandler(void* arg)
 {
     auto gpioInterrupt = reinterpret_cast<GpioInterrupt*>(arg);
-    if(gpioInterrupt->callback_){
-        gpioInterrupt->callback_->voidCallback(arg, gpioInterrupt->callbackArgs_);
-    }
+    gpioInterrupt->invokeCallback(arg);
 }
 
 
 
-GpioInterrupt::GpioInterrupt(const Configuration& config) : pin_(config.pin)
+GpioInterrupt::GpioInterrupt(const Configuration& config) : CallbackCaller(), pin_(config.pin)
 {
     gpio_config_t gpioConfig{};
     gpioConfig.pin_bit_mask = 1ULL << static_cast<uint32_t>(config.pin);
@@ -87,21 +85,6 @@ GpioInterrupt::~GpioInterrupt()
 {
     gpio_isr_handler_remove(this->pin_);
     gpio_reset_pin(this->pin_);
-}
-
-
-
-void GpioInterrupt::setCallback(::jblib::jbkernel::IVoidCallback* const callback, void* args)
-{
-    this->callback_ = callback;
-    this->callbackArgs_ = args;
-}
-
-
-void GpioInterrupt::resetCallback()
-{
-    this->callback_ = nullptr;
-    this->callbackArgs_ = nullptr;
 }
 
 
