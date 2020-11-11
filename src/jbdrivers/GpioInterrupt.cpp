@@ -91,13 +91,6 @@ GpioInterrupt::~GpioInterrupt()
 
 
 
-void GpioInterrupt::setCallback(::jblib::jbkernel::IVoidCallback* const callback)
-{
-    this->setCallback(callback, nullptr);
-}
-
-
-
 void GpioInterrupt::setCallback(::jblib::jbkernel::IVoidCallback* const callback, void* args)
 {
     this->callback_ = callback;
@@ -108,6 +101,7 @@ void GpioInterrupt::setCallback(::jblib::jbkernel::IVoidCallback* const callback
 void GpioInterrupt::resetCallback()
 {
     this->callback_ = nullptr;
+    this->callbackArgs_ = nullptr;
 }
 
 

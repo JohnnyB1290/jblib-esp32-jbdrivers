@@ -3,7 +3,8 @@ set(COMPONENT_SRCS
 		"src/jbdrivers/UartChannel.cpp"
 		"src/jbdrivers/SpiMaster.cpp"
 		"src/jbdrivers/Sx127xSpiDevice.cpp"
-		"src/jbdrivers/GpioInterrupt.cpp")
+		"src/jbdrivers/GpioInterrupt.cpp"
+		"src/jbdrivers/VoidTimer.cpp")
 set(COMPONENT_ADD_INCLUDEDIRS 
 		"include")
 		

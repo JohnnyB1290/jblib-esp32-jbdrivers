@@ -48,8 +48,7 @@ namespace jblib {
 
             GpioInterrupt(const Configuration& config);
             virtual ~GpioInterrupt();
-            void setCallback(::jblib::jbkernel::IVoidCallback* callback);
-            void setCallback(::jblib::jbkernel::IVoidCallback* callback, void* args);
+            void setCallback(::jblib::jbkernel::IVoidCallback* callback, void* args = nullptr);
             void resetCallback();
             void enable();
             void disable();
