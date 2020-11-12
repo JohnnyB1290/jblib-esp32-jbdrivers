@@ -27,6 +27,10 @@
 
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
+#include "esp_idf_version.h"
+
+#if (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 1, 0))
+
 #include "jbdrivers/VoidTimer.hpp"
 
 using namespace ::jblib::jbkernel;
@@ -167,3 +171,5 @@ void VoidTimer::changePeriodTicks(uint32_t periodTicks)
 {
     timer_set_alarm_value(this->timerGroup_, this->timerIdx_, periodTicks);
 }
+
+#endif

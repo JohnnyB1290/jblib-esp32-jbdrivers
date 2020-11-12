@@ -23,7 +23,6 @@
  * This file is a part of JB_Lib.
  */
 
-#include <hal/gpio_types.h>
 #include <stdexcept>
 #include "jbdrivers/GpioInterrupt.hpp"
 
