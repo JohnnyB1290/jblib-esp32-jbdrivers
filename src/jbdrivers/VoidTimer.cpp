@@ -55,7 +55,7 @@ VoidTimer& VoidTimer::getVoidTimer(TimerNum_t number, int intrFlags)
 
 VoidTimer::VoidTimer(TimerNum_t number, int intrFlags) : IVoidTimer(), intrFlags_(intrFlags)
 {
-    this->timerGroup_ = static_cast<timer_group_t>(static_cast<uint32_t>(number) & 2U);
+    this->timerGroup_ = static_cast<timer_group_t>((static_cast<uint32_t>(number) & 2U) >> 1U);
     this->timerIdx_ = static_cast<timer_idx_t>(static_cast<uint32_t>(number) & 1U);
 }
 
@@ -95,7 +95,7 @@ bool IRAM_ATTR VoidTimer::isrHandler(void* instance)
     if(timer->callback_ != nullptr){
         timer->callback_(instance, timer->callbackParameter_);
     }
-    return true;
+    return false;
 }
 
 
