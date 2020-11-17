@@ -37,7 +37,11 @@ SpiMaster::SpiMaster(const spi_bus_config_t& configuration, spi_host_device_t nu
 {
     auto ret = spi_bus_initialize(number, &configuration, useDma? number : 0);
     if(ret != ESP_OK){
+        #if CONFIG_COMPILER_CXX_EXCEPTIONS
         throw std::logic_error("Bus initialize error");
+        #else
+        ESP_LOGE(logTag_, "Bus initialize error");
+        #endif
     }
 }
 
@@ -65,7 +69,12 @@ void SpiMaster::addDevice(Device& device)
     spi_device_handle_t handle;
     auto ret = spi_bus_add_device(this->number_, &configuration, &handle);
     if(ret != ESP_OK){
+        #if CONFIG_COMPILER_CXX_EXCEPTIONS
         throw std::logic_error("Add device to bus error");
+        #else
+        ESP_LOGE(logTag_, "Add device to bus error");
+        return;
+        #endif
     }
     setDeviceHandle(device, handle);
     this->devicesList_.push_front(handle);

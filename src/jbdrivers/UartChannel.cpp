@@ -29,7 +29,7 @@
 
 #include "esp_idf_version.h"
 
-#if (ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(4, 0, 0))
+#if (ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(4, 1, 0))
 
 #include <cstring>
 #include "jbdrivers/UartChannel.hpp"

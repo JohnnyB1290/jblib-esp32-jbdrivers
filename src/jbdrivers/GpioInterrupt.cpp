@@ -67,7 +67,12 @@ GpioInterrupt::GpioInterrupt(const Configuration& config) : CallbackCaller(), pi
     gpioConfig.pull_down_en = config.pullDown;
     gpioConfig.intr_type = config.edge;
     if(gpio_config(&gpioConfig) != ESP_OK){
+        #if CONFIG_COMPILER_CXX_EXCEPTIONS
         throw std::logic_error("Gpio Config wrong parameters");
+        #else
+        ESP_LOGE(logTag_,"Gpio Config wrong parameters");
+        return;
+        #endif
     }
     auto ret = gpio_isr_handler_add(config.pin, isrHandler, this);
     if(ret == ESP_ERR_INVALID_STATE){
@@ -75,7 +80,11 @@ GpioInterrupt::GpioInterrupt(const Configuration& config) : CallbackCaller(), pi
         ret = gpio_isr_handler_add(config.pin, isrHandler, this);
     }
     if(ret != ESP_OK){
+        #if CONFIG_COMPILER_CXX_EXCEPTIONS
         throw std::logic_error("Add ISR handler error");
+        #else
+        ESP_LOGE(logTag_,"Add ISR handler error");
+        #endif
     }
     this->disable();
 }
