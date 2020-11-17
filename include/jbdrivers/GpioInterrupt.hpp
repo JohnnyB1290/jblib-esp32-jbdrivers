@@ -37,7 +37,7 @@ namespace jblib {
         public:
             struct Configuration
             {
-                gpio_num_t pin = GPIO_NUM_NC;
+                gpio_num_t pin = static_cast<gpio_num_t>(-1);
                 gpio_pullup_t pullUp = GPIO_PULLUP_DISABLE;
                 gpio_pulldown_t pullDown = GPIO_PULLDOWN_DISABLE;
                 gpio_int_type_t edge = GPIO_INTR_ANYEDGE;
@@ -53,7 +53,7 @@ namespace jblib {
 
         private:
             static constexpr const char* logTag_ = "[ Gpio Intr ]";
-            gpio_num_t pin_ = GPIO_NUM_NC;
+            gpio_num_t pin_ = static_cast<gpio_num_t>(-1);
 
             static void isrHandler(void* arg);
         };

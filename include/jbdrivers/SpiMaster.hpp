@@ -73,7 +73,7 @@ namespace jblib {
             };
 
             explicit SpiMaster(const spi_bus_config_t& configuration,
-                    spi_host_device_t number = SPI2_HOST, bool useDma = false) noexcept(false);
+                    spi_host_device_t number = HSPI_HOST, bool useDma = false) noexcept(false);
             virtual ~SpiMaster();
             SpiMaster(const SpiMaster&) = delete;
             SpiMaster& operator=(const SpiMaster&) = delete;
@@ -82,7 +82,7 @@ namespace jblib {
 
         private:
             static constexpr const char* logTag_ = "[ Spi Master ]";
-            spi_host_device_t number_ = SPI2_HOST;
+            spi_host_device_t number_ = HSPI_HOST;
             std::forward_list<spi_device_handle_t> devicesList_;
         };
     }
