@@ -60,6 +60,8 @@ namespace jblib{
             void changePeriod(uint32_t periodUs) override;
             void changePeriodTicks(uint32_t periodTicks) override;
 
+            static uint32_t getUsTicks() {return US_TICKS;}
+
         private:
             static constexpr const char* logTag_ = "[ VoidTimer ]";
             static constexpr uint32_t DIVIDER = 2;
