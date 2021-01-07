@@ -32,7 +32,7 @@
 namespace jblib {
     namespace jbdrivers {
 
-        static constexpr uint16_t MAX_WRITE_CHECKS = 256;
+        static constexpr uint16_t MAX_WRITE_CHECKS = 8;
         class Sx127xSpiDevice : public SpiMaster::Device
         {
         public:
