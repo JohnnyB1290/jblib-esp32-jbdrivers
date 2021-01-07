@@ -82,6 +82,21 @@ uint8_t Sx127xSpiDevice::read(uint8_t address)
 }
 
 
+void Sx127xSpiDevice::read(uint8_t startAddress, const uint8_t* data, size_t size)
+{
+    uint8_t burst[128];
+    spi_transaction_t transaction{};
+    transaction.cmd = 0;
+    transaction.addr = startAddress;
+    transaction.length = 8 * size;  //< Total data length, in bits
+    transaction.tx_buffer = burst;
+    transaction.rx_buffer = (void*) data;
+    esp_err_t ret = this->makeTransaction(transaction);
+    if(ret != ESP_OK){
+        ESP_LOGE(logTag_, "Transaction error %i", ret);
+    }
+}
+
 
 uint8_t Sx127xSpiDevice::write(uint8_t address, uint8_t data, bool waitUntilSet)
 {

@@ -52,6 +52,7 @@ namespace jblib {
             ~Sx127xSpiDevice() override = default;
             spi_bus_config_t getBusConfiguration() final;
             uint8_t read(uint8_t address);
+            void read(uint8_t address, const uint8_t *data, size_t dataCount);
             uint8_t write(uint8_t address, uint8_t data, bool waitUntilSet = false); //returns old value of register
             void write(uint8_t startAddress, const uint8_t* data, size_t size); //max value size is 4096 if using DMA, 64 if not
 
