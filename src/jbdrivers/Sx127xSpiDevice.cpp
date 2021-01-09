@@ -111,6 +111,10 @@ uint8_t Sx127xSpiDevice::write(uint8_t address, uint8_t data, bool waitUntilSet)
         ESP_LOGE(logTag_, "Transaction error %i", ret);
     }
     if(waitUntilSet){
+        esp_err_t ret = this->makeTransaction(transaction);
+        if(ret != ESP_OK){
+            ESP_LOGE(logTag_, "Transaction error %i", ret);
+        }
         for(size_t i = 0; i < this->config_.maxWriteChecks; i++){
             if(this->read(address) == data){
                 break;
