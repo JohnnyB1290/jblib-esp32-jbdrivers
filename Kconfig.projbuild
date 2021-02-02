@@ -53,5 +53,24 @@ menu "ESP32 JBDrivers"
 			default 1
 			
 	endmenu  #Uart Modem
-	
+
+	menu "Encoder"
+
+		config ENCODER_FILTER_TASK_STACK_SIZE
+			int "Filter Task stack size"
+			range 2048 32768
+			default 2048
+
+		config ENCODER_FILTER_TASK_PRIORITY
+			int "Filter Task priority"
+			range 1 32
+			default 1
+
+		config ENCODER_FILTER_DELAY_MS
+            int "Filter delay, ms"
+            range 1 1000
+            default 25
+
+	endmenu  #Encoder
+
 endmenu  #ESP32 Modem

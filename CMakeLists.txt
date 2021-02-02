@@ -4,7 +4,8 @@ set(COMPONENT_SRCS
 		"src/jbdrivers/SpiMaster.cpp"
 		"src/jbdrivers/Sx127xSpiDevice.cpp"
 		"src/jbdrivers/GpioInterrupt.cpp"
-		"src/jbdrivers/VoidTimer.cpp")
+		"src/jbdrivers/VoidTimer.cpp"
+		"src/jbdrivers/Encoder.cpp")
 set(COMPONENT_ADD_INCLUDEDIRS 
 		"include")
 		
