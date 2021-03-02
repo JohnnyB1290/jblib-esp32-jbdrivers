@@ -46,11 +46,13 @@ void JbController::initialize()
 	static bool isInitialized = false;
 	if(!isInitialized) {
         for(auto & boardGpio : boardGpios_) {
-            gpio_pad_select_gpio(boardGpio.pin);
-            gpio_set_direction(boardGpio.pin, boardGpio.direction);
-            gpio_set_pull_mode(boardGpio.pin,	boardGpio.pullMode);
-            if((boardGpio.direction != GPIO_MODE_INPUT) &&  (boardGpio.direction != GPIO_MODE_DISABLE)){
-                gpio_set_level(boardGpio.pin, 0);
+            if(boardGpio.pin != GPIO_NUM_NC){
+                gpio_pad_select_gpio(boardGpio.pin);
+                gpio_set_direction(boardGpio.pin, boardGpio.direction);
+                gpio_set_pull_mode(boardGpio.pin,	boardGpio.pullMode);
+                if((boardGpio.direction != GPIO_MODE_INPUT) &&  (boardGpio.direction != GPIO_MODE_DISABLE)){
+                    gpio_set_level(boardGpio.pin, 0);
+                }
             }
         }
 		isInitialized = true;
@@ -61,20 +63,28 @@ void JbController::initialize()
 
 void JbController::gpioOn(uint8_t number)
 {
-    gpio_set_level(boardGpios_[number].pin, 1);
+    if(boardGpios_[number].pin != GPIO_NUM_NC){
+        gpio_set_level(boardGpios_[number].pin, 1);
+    }
 }
 
 
 
 void JbController::gpioOff(uint8_t number)
 {
-    gpio_set_level(boardGpios_[number].pin, 0);
+    if(boardGpios_[number].pin != GPIO_NUM_NC){
+        gpio_set_level(boardGpios_[number].pin, 0);
+    }
 }
 
 
 
 void JbController::gpioTgl(uint8_t number)
 {
+    if(boardGpios_[number].pin == GPIO_NUM_NC){
+        return;
+    }
+
     bool isOn = false;
     if (boardGpios_[number].pin < 32) {
         isOn = (GPIO.out >> boardGpios_[number].pin) & 1U;
@@ -93,7 +103,7 @@ void JbController::gpioTgl(uint8_t number)
 
 bool JbController::getGpio(uint8_t number)
 {
-    return gpio_get_level(boardGpios_[number].pin);
+    return (boardGpios_[number].pin != GPIO_NUM_NC) ? gpio_get_level(boardGpios_[number].pin) : false;
 }
 
 
