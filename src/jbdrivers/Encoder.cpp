@@ -51,7 +51,7 @@ Encoder::Encoder(gpio_num_t e1Pin, gpio_num_t e2Pin) : e1Pin_(e1Pin), e2Pin_(e2P
         BaseType_t isAwake = 0;
         xSemaphoreGiveFromISR(this->filterSem_,&isAwake);
         if(isAwake) {
-            portYIELD_FROM_ISR()
+            portYIELD_FROM_ISR();
         }
     });
 
