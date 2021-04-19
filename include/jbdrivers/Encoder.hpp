@@ -39,7 +39,7 @@ namespace jblib {
                 STATE_LEFT = 1,
                 STATE_RIGHT = 2
             }State_t;
-            Encoder(gpio_num_t e1Pin, gpio_num_t e2Pin);
+            Encoder(gpio_num_t e1Pin, gpio_num_t e2Pin, bool useInterrupt = true);
             State_t getState();
             void resetState();
         private:
@@ -48,6 +48,8 @@ namespace jblib {
             gpio_num_t e2Pin_ = GPIO_NUM_NC;
             std::unique_ptr<jblib::jbdrivers::GpioInterrupt> gpioInterrupt_;
             State_t state_ = STATE_IDLE;
+            bool useInterrupt_ = true;
+            bool checkEncoder_ = false;
             xQueueHandle filterSem_ = xSemaphoreCreateBinary();
         };
     }
