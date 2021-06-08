@@ -37,6 +37,16 @@ namespace jblib
     namespace jbdrivers
     {
 
+        typedef struct {
+            uint32_t fifoOverflowEventsCount = 0;
+            uint32_t ringBufferFullEventsCount = 0;
+            uint32_t rxBreakEventsCount = 0;
+            uint32_t parityErrorEventsCount = 0;
+            uint32_t frameErrorEventsCount = 0;
+            uint32_t rxEventsCount = 0;
+            uint32_t rxBytesCount = 0;
+        } UartVoidChannelStats_t;
+
         class UartVoidChannel : public ::jblib::jbkernel::VoidChannel
         {
             static constexpr const char* logTag_ = "[ UART Void Channel ]";
@@ -44,6 +54,7 @@ namespace jblib
             bool isInitialized_ = false;
             std::mutex threadExitCvMutex_;
             std::condition_variable threadExitCv_;
+            UartVoidChannelStats_t stats_;
 
             void eventHandler();
 
@@ -69,6 +80,9 @@ namespace jblib
             ~UartVoidChannel() override;
             void initialize() override ;
             void tx(uint8_t* data, uint16_t size, void* connectionParameter) override ;
+
+            UartVoidChannelStats_t* getStatistics();
+            void resetStatistics();
 
         protected:
             Parameters_t parameters_;

@@ -35,6 +35,7 @@
 #include <thread>
 #include <vector>
 #include <soc/uart_reg.h>
+#include <string.h>
 
 namespace jblib
 {
@@ -115,6 +116,10 @@ namespace jblib
                 cfg.thread_name = logTag_;
                 cfg.stack_size = CONFIG_UART_CHANNEL_TASK_STACK_SIZE;
                 cfg.prio = CONFIG_UART_CHANNEL_TASK_PRIORITY;
+                cfg.pin_to_core = CONFIG_UART_CHANNEL_TASK_CORE;
+                if((cfg.pin_to_core != 0 && cfg.pin_to_core != 1) || portNUM_PROCESSORS < 2) {
+                    cfg.pin_to_core = tskNO_AFFINITY;
+                }
                 esp_pthread_set_cfg(&cfg);
                 std::thread handlerThread(eventHandlerFunc);
                 handlerThread.detach();
@@ -139,18 +144,16 @@ namespace jblib
                                 auto data = std::vector<uint8_t>(length);
                                 length = uart_read_bytes(this->parameters_.portNumber, data.data(),
                                                          length, portMAX_DELAY);
-                                ESP_LOGI(logTag_, "Uart received %i bytes", length);
+                                stats_.rxEventsCount++;
+                                stats_.rxBytesCount += length;
                                 this->invokeCallback(data.data(), length, this, nullptr);
-                            }
-                            else{
-                                ESP_LOGE(logTag_, "Uart received 0 bytes");
                             }
                         }
                             break;
 
                         case UART_FIFO_OVF:
                         {
-                            ESP_LOGW(logTag_, "UART FIFO Overflow");
+                            stats_.fifoOverflowEventsCount++;
                             uart_flush_input(this->parameters_.portNumber);
                             xQueueReset(this->uartEventQueue_);
                         }
@@ -158,22 +161,22 @@ namespace jblib
 
                         case UART_BUFFER_FULL:
                         {
-                            ESP_LOGW(logTag_, "UART Ring buffer full");
+                            stats_.ringBufferFullEventsCount++;
                             uart_flush_input(this->parameters_.portNumber);
                             xQueueReset(this->uartEventQueue_);
                         }
                             break;
 
                         case UART_BREAK:
-                            ESP_LOGW(logTag_, "UART Rx Break");
+                            stats_.rxBreakEventsCount++;
                             break;
 
                         case UART_PARITY_ERR:
-                            ESP_LOGE(logTag_, "UART Parity Error");
+                            stats_.parityErrorEventsCount++;
                             break;
 
                         case UART_FRAME_ERR:
-                            ESP_LOGE(logTag_, "UART Frame Error");
+                            stats_.frameErrorEventsCount++;
                             break;
 
                         case UART_EVENT_MAX:
@@ -218,6 +221,14 @@ namespace jblib
                 this->isInitialized_ = false;
                 ESP_LOGE(logTag_, "Destruct success");
             }
+        }
+
+        UartVoidChannelStats_t *UartVoidChannel::getStatistics() {
+            return &stats_;
+        }
+
+        void UartVoidChannel::resetStatistics() {
+            memset((void*) &stats_, 0, sizeof(UartVoidChannelStats_t));
         }
 
     }
