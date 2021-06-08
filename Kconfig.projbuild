@@ -51,7 +51,12 @@ menu "ESP32 JBDrivers"
 			int "Task priority"
 			range 1 32
 			default 1
-			
+
+	    config UART_CHANNEL_TASK_CORE
+	        int "Attached core number (0, 1, 255 - any)"
+            range 0 255
+            default 255
+
 	endmenu  #Uart Modem
 
 	menu "Encoder"
